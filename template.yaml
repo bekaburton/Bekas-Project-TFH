@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Bekas-Chatbot'
+
+
+########################################################################
+### ENVIRONMENT DEFINITIONS:
+########################################################################
+Globals:
+  Function:
+    Timeout: 900
+    EventInvokeConfig:
+      MaximumRetryAttempts: 0
+    Environment:
+      Variables:
+        Namespace: !Ref Namespace
+        LOG_LEVEL: 'INFO'
+        POWERTOOLS_SERVICE_NAME: !Ref Namespace
+
+Parameters:
+  Namespace:
+    Type: String
+    Default: 'bekas-chatbot'
+
+
+Resources:
+########################################################################
+### LAMBDA STACK:
+########################################################################
+  ResponderFunction:
+   Type: AWS::Serverless::Function
+   Properties:
+      CodeUri: lambdas/responder/
+      Handler: responder.handler
+      Runtime: python3.8
+      MemorySize: 512
+      Policies:
+       - Statement:
+           - Effect: Allow
+             Action:
+               - lambda:InvokeFunction
+               - logs:CreateLogStream
+               - logs:CreateLogGroup
+               - logs:PutLogEvents
+               - s3:GetObject
+               - s3:PutObject
+               - s3:DeleteObject
+               - s3:ListBucket
+             Resource: '*'
+
+
+  ChatbotFunction:
+   Type: AWS::Serverless::Function
+   Properties:
+      CodeUri: lambdas/chatbot/
+      Handler: chatbot.handler
+      Runtime: python3.8
+      MemorySize: 512
+      Policies:
+       - Statement:
+           - Effect: Allow
+             Action:
+               - lambda:InvokeFunction
+               - logs:CreateLogStream
+               - logs:CreateLogGroup
+               - logs:PutLogEvents
+               - s3:GetObject
+               - s3:PutObject
+               - s3:DeleteObject
+               - s3:ListBucket
+             Resource: '*'

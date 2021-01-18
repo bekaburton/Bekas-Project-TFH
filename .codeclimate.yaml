@@ -1,0 +1,81 @@
+version: "2"
+checks:
+  argument-count:
+    enabled: true
+    config:
+      threshold: 4
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 4
+  file-lines:
+    enabled: true
+    config:
+      threshold: 250
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 5
+  method-count:
+    enabled: true
+    config:
+      threshold: 20
+  method-lines:
+    enabled: true
+    config:
+      threshold: 25
+  nested-control-flow:
+    enabled: true
+    config:
+      threshold: 4
+  return-statements:
+    enabled: true
+    config:
+      threshold: 4
+  similar-code:
+    enabled: true
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
+  identical-code:
+    enabled: true
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
+plugins:
+  sonar-python: # Python complexity/style/tech debt
+    enabled: true
+  bandit: # Security vulnerabilities
+    enabled: true
+#  markdownlint: # Markdown/README anti-patterns
+#    enabled: true
+  git-legal: # Dependancies / External package licences
+    enabled: true
+    config:
+      allow_affero_copyleft: false
+      allow_strong_copyleft: false
+      allow_weak_copyleft: false
+
+      # you may disallow permissive licenses if you want to explicitly approve ALL libraries
+      allow_permissive: true
+
+      # all standard license names and abbreviations (with or without version numbers) are recognized for your explicit whitelist/blacklists
+      license_whitelist: [ "LGPL-2.1", "BSD", "MIT" ]
+      license_blacklist: [ "Apache" ]
+
+      # by default, libraries not found in standard library repositories (rubygems.org, npm, etc) are permitted, as they're likely your own works, but you may wish to be more stringent and explicitly approve these
+      allow_unknown_libraries: true
+
+exclude_patterns:
+- "config/"
+- "db/"
+- "dist/"
+- "features/"
+- "**/node_modules/"
+- "script/"
+- "**/spec/"
+- "**/test/"
+- "**/tests/"
+- "**/vendor/"
+- "**/*.d.ts"
+- "./.aws_sam/"
+- "./.pytest_cache/"
+- ".coverage"
